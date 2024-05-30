@@ -1,0 +1,62 @@
+<section id="movies">
+  <div class="container">
+    <div class="search form-group">
+      <input
+        type="text"
+        [(ngModel)]="movieFilterValue"
+        placeholder="Search movies"
+        class="form-control"
+        autofocus
+      />
+    </div>
+    <div class="row flexbox-center">
+      <div class="col-lg-6 text-center text-lg-left">
+        <div class="section-title">
+          <h1><i class="icofont icofont-movie"></i> Movies</h1>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center text-lg-right">
+        <div class="portfolio-menu">
+          <ul>
+            <li
+              (click)="getAllMovies()"
+              [class]="activeTab == 0 ? 'active' : ''"
+            >
+              All Movies
+            </li>
+            <li (click)="topRated()" [class]="activeTab == 1 ? 'active' : ''">
+              Top Rated
+            </li>
+            <li
+              (click)="recentMovies()"
+              [class]="activeTab == 2 ? 'active' : ''"
+            >
+              Recently Released
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <div class="row" style="justify-content: center">
+    <div class="col-9 align-self-end">
+      <div class="movies-list">
+        <div
+          class="movies-box"
+          *ngFor="
+            let movie of movies | searchMovie : movieFilterValue;
+            let id = index
+          "
+        >
+          <div class="movies-img">
+            <img src="assets/img/portfolio{{ id % 6 }}.png" />
+          </div>
+          <a [routerLink]="[movie.id]">
+            {{ movie.title }} [{{ movie.language }}]
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

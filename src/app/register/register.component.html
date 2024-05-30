@@ -1,0 +1,133 @@
+<!-- signup.component.html -->
+<section id="signup">
+  <div class="container">
+    <h3 style="color: red">{{ errorMessage }}</h3>
+    <form [formGroup]="userForm" (ngSubmit)="register()">
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
+          <div class="card-header">
+            <h3>Sign Up</h3>
+            <div class="d-flex justify-content-end social_icon"></div>
+          </div>
+          <div class="card-body">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-user"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="username"
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-envelope"></i
+                ></span>
+              </div>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-phone"></i
+                ></span>
+              </div>
+              <!-- Country code prefix -->
+
+              <select class="country-code" formControlName="country">
+                <option value="+91 India">+91 (India)</option>
+                <option value="+49 Germany">+49 (Germany)</option>
+                <option value="+01 United States">+01 (United States)</option>
+                <option value="+44 United Kingdom">+44 (United Kingdom)</option>
+                <option value="+86 China">+86 (China)</option>
+                <option value="+81 Japan">+81 (Japan)</option>
+                <option value="+61 Australia">+61 (Australia)</option>
+                <!-- Add other country options -->
+              </select>
+              <input
+                type="tel"
+                class="form-control"
+                formControlName="phone"
+                placeholder="Mobile Number"
+                required
+              />
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="confirmPassword"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <div class="radio">
+              <input
+                type="radio"
+                id="admin"
+                name="role"
+                value="admin"
+                formControlName="role"
+                class="radio"
+              />
+              <label class="radioName" for="admin">Admin</label><br />
+              <input
+                type="radio"
+                id="customer"
+                name="role"
+                value="customer"
+                formControlName="role"
+                class="radio"
+              />
+              <label class="radioName" for="customer">Customer</label><br />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn float-right login_btn">
+                Sign Up
+              </button>
+            </div>
+          </div>
+          <hr />
+          <div class="card-footer">
+            <div class="d-flex justify-content-center links">
+              Account already exists?<a [routerLink]="['/login']"
+                ><em><strong>Login</strong></em></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

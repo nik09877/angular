@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { LokiService } from './loki.service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { LokiService } from './loki.service';
 export class AuthService {
   isLoginStatus: any;
   userRole: any = false;
-  customerId: any | string = 1;
+  userEmail: any | string;
 
   constructor(private loki: LokiService) {}
 
@@ -16,11 +17,19 @@ export class AuthService {
     return this.loki.register(user);
   }
 
-  login() {
-    this.isLoginStatus = true;
+  login(searchType: string, searchVal: string, password: string) {
+    return this.loki.login(searchType, searchVal, password).pipe(
+      tap((user: User) => {
+        this.isLoginStatus = true;
+        this.userRole = user.role;
+        this.userEmail = user.email;
+      })
+    );
   }
 
   logout() {
     this.isLoginStatus = false;
+    this.userRole = '';
+    this.userEmail = '';
   }
 }

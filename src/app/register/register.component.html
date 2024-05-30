@@ -1,7 +1,7 @@
 <!-- signup.component.html -->
 <section id="signup">
   <div class="container">
-    <h3 style="color: red">{{ errorMessage }}</h3>
+    <!-- <h3 style="color: red">{{ errorMessage }}</h3> -->
     <form [formGroup]="userForm" (ngSubmit)="register()">
       <div class="d-flex justify-content-center h-100">
         <div class="card">
@@ -10,20 +10,6 @@
             <div class="d-flex justify-content-end social_icon"></div>
           </div>
           <div class="card-body">
-            <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"
-                  ><i class="fas fa-user"></i
-                ></span>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="username"
-                placeholder="Username"
-                required
-              />
-            </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"
@@ -38,15 +24,48 @@
                 required
               />
             </div>
+            <div
+              class="error"
+              *ngIf="
+                userForm.get('email')?.invalid && userForm.get('email')?.touched
+              "
+            >
+              <small *ngIf="userForm.get('email')?.errors?.['required']"
+                >Email is required.</small
+              >
+              <small *ngIf="userForm.get('email')?.errors?.['email']"
+                >Invalid email address.</small
+              >
+
+              <small *ngIf="userForm.get('email')?.hasError('invalidEmail')">
+                Invalid email address.
+              </small>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fas fa-flag"></i
+                ></span>
+              </div>
+
+              <select class="country-code" formControlName="country">
+                <option
+                  *ngFor="let country of countries"
+                  [value]="country.code"
+                >
+                  {{ country.name }}
+                </option>
+              </select>
+            </div>
+
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"
                   ><i class="fas fa-phone"></i
                 ></span>
               </div>
-              <!-- Country code prefix -->
 
-              <select class="country-code" formControlName="country">
+              <!-- <select class="country-code" formControlName="country">
                 <option value="+91 India">+91 (India)</option>
                 <option value="+49 Germany">+49 (Germany)</option>
                 <option value="+01 United States">+01 (United States)</option>
@@ -54,8 +73,7 @@
                 <option value="+86 China">+86 (China)</option>
                 <option value="+81 Japan">+81 (Japan)</option>
                 <option value="+61 Australia">+61 (Australia)</option>
-                <!-- Add other country options -->
-              </select>
+              </select> -->
               <input
                 type="tel"
                 class="form-control"
@@ -63,6 +81,22 @@
                 placeholder="Mobile Number"
                 required
               />
+            </div>
+            <div
+              class="error"
+              *ngIf="
+                userForm.get('phone')?.invalid && userForm.get('phone')?.touched
+              "
+            >
+              <small *ngIf="userForm.get('phone')?.errors?.['required']"
+                >Phone number is required.</small
+              >
+
+              <small
+                *ngIf="userForm.get('phone')?.hasError('invalidPhoneNumber')"
+              >
+                Invalid phone number for the selected country.
+              </small>
             </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
@@ -78,6 +112,17 @@
                 required
               />
             </div>
+            <div
+              class="error"
+              *ngIf="
+                userForm.get('password')?.invalid &&
+                userForm.get('password')?.touched
+              "
+            >
+              <small *ngIf="userForm.get('password')?.errors?.['required']"
+                >Password is required.</small
+              >
+            </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"
@@ -91,6 +136,18 @@
                 placeholder="Confirm Password"
                 required
               />
+            </div>
+            <div
+              class="error"
+              *ngIf="
+                userForm.get('confirmPassword')?.invalid &&
+                userForm.get('confirmPassword')?.touched
+              "
+            >
+              <small
+                *ngIf="userForm.get('confirmPassword')?.errors?.['required']"
+                >Confirm Password is required.</small
+              >
             </div>
             <div class="radio">
               <input
@@ -113,10 +170,23 @@
               <label class="radioName" for="customer">Customer</label><br />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn float-right login_btn">
+              <button
+                type="submit"
+                class="btn float-right login_btn"
+                [disabled]="
+                  userForm.invalid ||
+                  (!userForm.get('phone')?.value.trim() &&
+                    !userForm.get('email')?.value.trim()) ||
+                  !userForm.get('password')?.value.trim() ||
+                  !userForm.get('confirmPassword')?.value.trim()
+                "
+              >
                 Sign Up
               </button>
             </div>
+          </div>
+          <div class="error ml-3" *ngIf="errorMessage">
+            <small>{{ errorMessage }}</small>
           </div>
           <hr />
           <div class="card-footer">

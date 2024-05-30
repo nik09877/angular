@@ -50,9 +50,7 @@
                     </p>
                     <div class="book-movie">
                       <h3>Book Movie</h3>
-                      <a
-                        class="theme-btn"
-                        [routerLink]="['/movie/view', movie.id]"
+                      <a class="theme-btn" [routerLink]="['/movie', movie.id]"
                         ><i class="icofont icofont-ticket"></i> Book
                       </a>
                     </div>
@@ -97,7 +95,7 @@
           <div class="topMovies">
             <div class="topMovies-img">
               <img src="assets/img/portfolio{{ i % 6 }}.png" alt="portfolio" />
-              <a [routerLink]="['/movie/view', movie.id]" class="popup-book">
+              <a [routerLink]="['/movie', movie.id]" class="popup-book">
                 <i class="icofont-ui-movie"></i>
               </a>
             </div>

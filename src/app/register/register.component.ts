@@ -3,6 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
+import {
+  emailValidator,
+  phoneNumberValidator,
+} from '../custom-validators/custom-validators';
 
 @Component({
   selector: 'app-register',
@@ -10,37 +14,83 @@ import { User } from '../models/user';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
-  userForm: FormGroup;
+  userForm!: FormGroup;
   errorMessage: string | any;
+  countries = [
+    { code: 'IN', name: 'India' },
+    { code: 'US', name: 'United States' },
+    { code: 'CA', name: 'Canada' },
+    { code: 'GB', name: 'United Kingdom' },
+    { code: 'AU', name: 'Australia' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'FR', name: 'France' },
+    { code: 'CN', name: 'China' },
+    { code: 'JP', name: 'Japan' },
+    { code: 'BR', name: 'Brazil' },
+    // Add more countries as needed
+  ];
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.userForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      country: ['+91 India'], // Default country code
-      phone: ['', Validators.required],
+      email: ['', [Validators.required, emailValidator()]], // Custom email validator
+      country: ['IN', Validators.required], // Use country codes
+      phone: ['', Validators.required], // Phone control initially without validator
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      role: ['customer'], // Default role
+      role: ['customer', Validators.required], // Default role
+    });
+
+    // Apply the phone number validator after form group initialization
+    this.userForm
+      .get('phone')
+      ?.setValidators([
+        Validators.required,
+        phoneNumberValidator(this.userForm.get('country')),
+      ]);
+
+    // Update the phone number validator when the country changes
+    this.userForm.get('country')?.valueChanges.subscribe(() => {
+      this.userForm.get('phone')?.updateValueAndValidity();
     });
   }
 
-  ngOnInit(): void {}
-
   register() {
     if (
-      this.userForm.valid &&
-      this.userForm.get('password')?.value ===
-        this.userForm.get('confirmPassword')?.value
+      this.userForm.get('password')?.value.trim() !==
+      this.userForm.get('confirmPassword')?.value.trim()
     ) {
-      const user: User = this.userForm.value;
-      console.log(user);
-    } else {
-      this.errorMessage = 'Form is invalid or passwords do not match.';
+      this.errorMessage = 'Passwords do not match';
+      return;
     }
+    if (!this.userForm.valid) {
+      this.errorMessage = 'Enter valid details';
+      return;
+    }
+
+    const formVals = this.userForm.value;
+    const user: User = {
+      email: formVals.email.trim(),
+      phone: formVals.phone.trim(),
+      country: formVals.country,
+      password: formVals.password.trim(),
+      role: formVals.role,
+    };
+    this.authService.register(user).subscribe({
+      next: (value) => {
+        console.log(value);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.errorMessage = err;
+        console.error('Error:', err);
+      },
+      complete: () => console.log('Completed'),
+    });
   }
 }

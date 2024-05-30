@@ -39,9 +39,9 @@ export class LokiService {
       this.moviesCollection = this.db.addCollection<Movie>('movies');
     }
 
-    const usersCollection = this.db.getCollection('users');
-    if (!usersCollection) {
-      this.db.addCollection('users');
+    this.usersCollection = this.db.getCollection('users');
+    if (!this.usersCollection) {
+      this.usersCollection = this.db.addCollection<User>('users');
     }
 
     // Add demo movies if the collection is empty
@@ -51,18 +51,40 @@ export class LokiService {
   }
 
   register(user: User): Observable<User> {
-    return new Observable<User>((observer) => {
-      try {
+    return from(
+      this.dbInitialized.then(() => {
+        console.log(user);
+        console.log(this.usersCollection);
+        const userExists = this.usersCollection.findOne({ email: user.email });
+        if (userExists) {
+          throw new Error('user already exists');
+        }
+
         this.usersCollection.insert(user);
-        observer.next(user);
-        observer.complete();
-      } catch (error) {
-        observer.error(error);
-      }
-    });
+        console.log(this.usersCollection);
+        return user;
+      })
+    );
   }
 
-  login() {}
+  login(
+    searchType: string,
+    searchVal: string,
+    password: string
+  ): Observable<User> {
+    return from(
+      this.dbInitialized.then(() => {
+        const user = this.usersCollection.findOne({ [searchType]: searchVal });
+        if (!user) {
+          throw new Error('User not found');
+        } else if (user.password !== password) {
+          throw new Error('Invalid password');
+        } else {
+          return user; // Authentication successful
+        }
+      })
+    );
+  }
 
   getAllMovies(): Observable<Movie[]> {
     return from(

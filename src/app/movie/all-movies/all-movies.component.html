@@ -50,7 +50,7 @@
           "
         >
           <div class="movies-img">
-            <img src="assets/img/portfolio{{ id % 6 }}.png" />
+            <img [src]="movie.poster" />
           </div>
           <a [routerLink]="[movie.id]">
             {{ movie.title }} [{{ movie.language }}]

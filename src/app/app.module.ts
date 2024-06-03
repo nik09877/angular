@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './store/reducers/auth.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -32,6 +33,7 @@ import { SearchMoviePipe } from './custom-pipes/search-movie.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StoreModule.forRoot({ auth: authReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent],

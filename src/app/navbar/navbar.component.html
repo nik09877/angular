@@ -87,17 +87,13 @@
     Edit Profile
   </button> -->
   <button
-    *ngIf="!authService.isLoginStatus"
-    [routerLink]="['/login']"
-    class="login-btn theme-btn"
-  >
-    Login
-  </button>
-  <button
-    *ngIf="authService.isLoginStatus"
+    *ngIf="isLoginStatus$ | async; else loggedOut"
     (click)="authService.logout()"
     class="login-btn theme-btn"
   >
     Logout
   </button>
+  <ng-template #loggedOut>
+    <button [routerLink]="['/login']" class="login-btn theme-btn">Login</button>
+  </ng-template>
 </nav>

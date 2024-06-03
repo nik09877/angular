@@ -32,7 +32,8 @@ hr {
 
 .latest-movies-content > img {
   position: relative;
-  margin-top: -120px;
+  margin-top: -80px;
+  min-width: 65%;
 }
 .latest-movies-slider {
   margin: auto;

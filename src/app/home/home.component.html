@@ -29,10 +29,7 @@
               <div class="row latest-movies-slide">
                 <div class="col-lg-6 col-md-5">
                   <div class="latest-movies-content">
-                    <img
-                      src="assets/img/portfolio{{ i % 6 }}.png"
-                      alt="No image Uploaded"
-                    />
+                    <img [src]="movie.poster" alt="No image Uploaded" />
                   </div>
                 </div>
                 <div class="details col-lg-6 col-md-7">
@@ -94,7 +91,7 @@
         >
           <div class="topMovies">
             <div class="topMovies-img">
-              <img src="assets/img/portfolio{{ i % 6 }}.png" alt="portfolio" />
+              <img [src]="movie.poster" alt="portfolio" />
               <a [routerLink]="['/movie', movie.id]" class="popup-book">
                 <i class="icofont-ui-movie"></i>
               </a>

@@ -13,14 +13,13 @@ export class DetailViewMovieComponent implements OnInit {
   movieId!: number;
   constructor(
     private actRouter: ActivatedRoute,
-    private router: Router,
     private mService: MovieService
   ) {}
 
   ngOnInit(): void {
     this.movieId = +this.actRouter.snapshot.params['movieId'];
     this.mService.getMovieById(this.movieId).subscribe((data: Movie) => {
-      console.log(data);
+      // console.log(data);
       this.movie = data;
     });
   }

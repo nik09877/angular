@@ -1,6 +1,6 @@
 import { Movie } from './src/app/models/movie';
 
-export const dummyMovies: Movie[] = [
+export const dummyMovies = [
   {
     id: 1,
     title: 'The Shawshank Redemption',

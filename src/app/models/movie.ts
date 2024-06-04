@@ -1,3 +1,5 @@
+import { Seat } from './Seat';
+
 export interface Movie {
   id: number;
   title: string;
@@ -16,4 +18,5 @@ export interface Movie {
   boxOffice: string;
   production: string;
   website: string;
+  seats: Seat[];
 }

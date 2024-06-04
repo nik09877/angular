@@ -14,6 +14,8 @@ import { MovieComponent } from './movie/movie.component';
 import { AllMoviesComponent } from './movie/all-movies/all-movies.component';
 import { DetailViewMovieComponent } from './movie/detail-view-movie/detail-view-movie.component';
 import { SearchMoviePipe } from './custom-pipes/search-movie.pipe';
+import { TheatreComponent } from './theatre/theatre.component';
+import { ViewByMovieComponent } from './theatre/view-by-movie/view-by-movie.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { SearchMoviePipe } from './custom-pipes/search-movie.pipe';
     AllMoviesComponent,
     DetailViewMovieComponent,
     SearchMoviePipe,
+    TheatreComponent,
+    ViewByMovieComponent,
   ],
   imports: [
     BrowserModule,

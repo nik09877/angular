@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, emailValidator()]], // Custom email validator
       country: ['IN', Validators.required], // Use country codes
       phone: ['', Validators.required], // Phone control initially without validator
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       role: ['customer', Validators.required], // Default role
     });

@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { MovieComponent } from './movie/movie.component';
 import { AllMoviesComponent } from './movie/all-movies/all-movies.component';
 import { DetailViewMovieComponent } from './movie/detail-view-movie/detail-view-movie.component';
+import { TheatreComponent } from './theatre/theatre.component';
+import { ViewByMovieComponent } from './theatre/view-by-movie/view-by-movie.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,6 +22,14 @@ const routes: Routes = [
     children: [
       { path: '', component: AllMoviesComponent },
       { path: ':movieId', component: DetailViewMovieComponent },
+    ],
+  },
+  {
+    path: 'theatre',
+    canActivate: [AuthGuard],
+    component: TheatreComponent,
+    children: [
+      { path: 'viewbyMovie/:movieId', component: ViewByMovieComponent },
     ],
   },
 ];

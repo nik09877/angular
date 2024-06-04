@@ -1,0 +1,59 @@
+<div class="body">
+  <div class="movie-container">
+    <label>Seat Status:</label>
+    <ul class="showcase">
+      <li>
+        <div class="seat"></div>
+        <small>Available</small>
+      </li>
+      <li>
+        <div class="seat selected"></div>
+        <small>Selected</small>
+      </li>
+      <li>
+        <div class="seat occupied"></div>
+        <small>Occupied</small>
+      </li>
+    </ul>
+
+    <div class="container">
+      <div class="screen"></div>
+
+      <div class="row" *ngFor="let row of seatMap; let rowIndex = index">
+        <div
+          class="seat"
+          data-toggle="tooltip"
+          data-placement="top"
+          [title]="seat.price"
+          *ngFor="let seat of row; let seatIndex = index"
+          [ngClass]="{
+            seat: true,
+            selected: seat.selected,
+            occupied: seat.occupied
+          }"
+          (click)="toggleSeat(rowIndex, seatIndex)"
+        ></div>
+      </div>
+
+      <p class="text">
+        You have selected <span id="count">{{ selectedSeatsCount }}</span> seats
+        for the total price of Rs. <span id="total">{{ totalPrice }}</span>
+      </p>
+
+      <label>payment Mode:</label>
+      <select name="payment">
+        <option value="icici">ICICI</option>
+        <option value="icici">HDFC</option>
+        <option value="icici">SBI</option>
+      </select>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="totalPrice == 0"
+        (click)="handlePayment()"
+      >
+        Pay {{ totalPrice }}
+      </button>
+    </div>
+  </div>
+</div>
